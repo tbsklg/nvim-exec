@@ -1,20 +1,17 @@
 name: Tests
 on: [push, pull_request]
 jobs:
-  build:
+  unit-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Provide dependencies
+      
+      - name: Dependencies 
         run: |
           mkdir dependencies
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim.git dependencies/plenary.nvim
           git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter.git dependencies/nvim-treesitter
 
-  unit-test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       - name: Run tests
         run: |
           ls -la dependencies

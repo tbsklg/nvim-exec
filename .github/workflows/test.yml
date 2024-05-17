@@ -19,7 +19,7 @@ jobs:
           export PATH="${PWD}/_nvim/bin:${PATH}"
           nvim --version
           
-          npm install tree-sitter-cli
+          npm i -g tree-sitter-cli
           curl -sl "https://raw.githubusercontent.com/tree-sitter/tree-sitter-javascript/master/grammar.js" > grammer.js
           tree-sitter generate
           ls -la

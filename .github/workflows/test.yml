@@ -1,21 +1,27 @@
 name: Tests
 on: [push, pull_request]
 jobs:
-  build:
+  unit-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Provide dependencies
+      
+      - name: Dependencies 
         run: |
-          mkdir dependencies
-          git clone --depth 1 https://github.com:nvim-lua/plenary.nvim.git dependencies/plenary.nvim
+          mkdir -p dependencies
+          git clone --depth 1 https://github.com/nvim-lua/plenary.nvim.git dependencies/plenary.nvim
           git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter.git dependencies/nvim-treesitter
-
-  unit-test:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+      
+      - name: Prepare
+        run: |
+          mkdir -p _nvim
+          curl -sL "https://github.com/neovim/neovim/releases/download/v0.9.0/nvim-linux64.tar.gz" | tar xzf - --strip-components=1 -C "${PWD}/_nvim"
+          export PATH="${PWD}/_nvim/bin:${PATH}"
+          
+          nvim --headless -u scripts/minimal.vim -c 'TSUpdateSync javascript' -c 'q'
+      
       - name: Run tests
         run: |
-          ls -la dependencies
-          echo "Run tests using make"
+          export PATH="${PWD}/_nvim/bin:${PATH}"
+          nvim --version
+          make test

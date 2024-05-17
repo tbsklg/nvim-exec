@@ -1,4 +1,4 @@
-local helpers = require("exec.helpers")
+local helpers = require("nvim-exec.helpers")
 local parser = require("nvim-treesitter.parsers").get_parser()
 
 local config = {
@@ -80,7 +80,7 @@ local create_execution_for = function(node)
     return table.concat(file_content, "\n") .. "\n" .. instruction
 end
 
-local exec = function()
+local run = function()
     for _, node, _ in comments_with_marker() do
         local node_line = vim.treesitter.get_node_range(node) + 1
         local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
@@ -94,5 +94,5 @@ local exec = function()
 end
 
 return {
-    exec = exec,
+    run = run,
 }

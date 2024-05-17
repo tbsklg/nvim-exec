@@ -8,8 +8,8 @@ Sometimes you need fast feedback on the code you are writing. This plugin allows
 from your current buffer. It displays the output as a comment in the same buffer. Currently only node.js
 is supported.
 
-You can execute any code within a comment block after the `>>>` symbol. The output will be displayed
-as a comment in the next line.
+You can execute any code within a comment block. The output will be displayed
+as a comment in the next line(s).
 
 Example:
 Suppose you have the following fibonacci function in your buffer (btw, this is a terrible way to calculate
@@ -17,7 +17,7 @@ fibonacci numbers). If you place the cursor in the comment block and execute :Ex
 output in the next line(s).
 
 ```javascript
-//>>> fibs(10)
+//fibs(10)
 // 
 // [
 //   1,  1,  2,  3,  5,
@@ -38,7 +38,7 @@ The plugin configures a timeout for the code execution. If the code takes longer
 execution will be stopped. The default timeout is 10 seconds.
 
 ```javascript
-//>>> fibs(100)
+//fibs(100)
 //
 // Job timed out
 //
@@ -57,7 +57,7 @@ following code to calculate the first 100 fibonacci numbers. If you place the cu
 and execute :ExecCode, you will see the output in the next line(s).
 
 ```javascript
-//>>> fibs(100)
+//fibs(100)
 // 
 // [
 //                       1,                     1,                     2,

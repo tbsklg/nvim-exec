@@ -3,7 +3,6 @@ local parser = require("nvim-treesitter.parsers").get_parser()
 
 local config = {
     timeout_in_ms = 10000,
-    comment_marker = ">>>",
 }
 
 local print_result = function(result)
@@ -23,6 +22,7 @@ local execute_code = function(code)
     if not code then
         return
     end
+    print(code)
 
     return vim.fn.jobstart({ "node", "-p", code }, {
         stdout_buffered = true,
@@ -54,9 +54,7 @@ local comments_with_marker = function()
 
     local query = vim.treesitter.query.parse(
         "javascript",
-        '((comment) @comment (#contains? @comment "'
-            .. config.comment_marker
-            .. '" ))'
+        '((comment) @comment)'
     )
 
     local tree = parser:parse()[1]
@@ -68,7 +66,7 @@ local extract_instruction_from = function(node)
 
     return vim.treesitter
         .get_node_text(node, buf_nr)
-        :match(config.comment_marker .. "%s*(.*)")
+        :gsub("//", "")
 end
 
 local create_execution_for = function(node)
@@ -92,6 +90,8 @@ local run = function()
         end
     end
 end
+
+vim.api.nvim_create_user_command("ExecCode", run, {})
 
 return {
     run = run,

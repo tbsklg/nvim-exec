@@ -6,7 +6,7 @@ describe("some basics", function()
   end)
 
   it("should eval a function", function()
-    vim.api.nvim_buf_set_lines(0, 0, 0, false, { "//>>> add(1,2)" })
+    vim.api.nvim_buf_set_lines(0, 0, 0, false, { "// add(1,2)" })
     vim.api.nvim_win_set_cursor(0, { 1, 1 })
 
     local co = coroutine.running()

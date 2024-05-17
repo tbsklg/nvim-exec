@@ -1,11 +1,11 @@
-describe("some basics", function()
+describe("nvim-exec", function()
 
   before_each(function()
     vim.api.nvim_command("read ./tests/exec/test.js")
     vim.api.nvim_command("set filetype=javascript")
   end)
 
-  it("should eval a function", function()
+  it("should execute some code", function()
     vim.api.nvim_buf_set_lines(0, 0, 0, false, { "// add(1,2)" })
     vim.api.nvim_win_set_cursor(0, { 1, 1 })
 

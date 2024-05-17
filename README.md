@@ -121,12 +121,18 @@ const fibs = (n) => {
 ## Installation
 - Using lazy.nvim
 ```lua
-{
-  "tbsklg"/"nvim-exec",
-  branch = "main",
-  dependencies = {
-    {"nvim-treesitter/nvim-treesitter"}
-  }
+return {
+    "tbsklg/nvim-exec",
+    lazy = true,
+    branch = "main",
+    config = function()
+        local nvim_exec = require("nvim-exec")
+
+        vim.keymap.set({ "n", "v" }, "<leader>r", function()
+            nvim_exec.run()
+        end, { desc = "Execute code" })
+    end,
+    ft = "javascript",
 }
 ```
 

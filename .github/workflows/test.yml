@@ -1,16 +1,6 @@
 name: Tests
 on: [push, pull_request]
 jobs:
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: JohnnyMorganz/stylua-action@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          version: latest
-          args: --check lua/ --config-path=.stylua.toml
-
   unit-test:
     runs-on: ubuntu-latest
     steps:

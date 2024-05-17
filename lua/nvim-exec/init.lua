@@ -51,10 +51,8 @@ end
 local comments_with_marker = function()
     local buf_nr = vim.api.nvim_get_current_buf()
 
-    local query = vim.treesitter.query.parse(
-        "javascript",
-        '((comment) @comment)'
-    )
+    local query =
+        vim.treesitter.query.parse("javascript", "((comment) @comment)")
 
     local tree = parser:parse()[1]
     return query:iter_captures(tree:root(), buf_nr)
@@ -63,9 +61,7 @@ end
 local extract_instruction_from = function(node)
     local buf_nr = vim.api.nvim_get_current_buf()
 
-    return vim.treesitter
-        .get_node_text(node, buf_nr)
-        :gsub("//", "")
+    return vim.treesitter.get_node_text(node, buf_nr):gsub("//", "")
 end
 
 local create_execution_for = function(node)

@@ -17,7 +17,7 @@ fibonacci numbers). If you place the cursor in the comment block and execute :Ex
 output in the next line(s).
 
 ```javascript
-//fibs(10)
+// fibs(10)
 // 
 // [
 //   1,  1,  2,  3,  5,
@@ -38,7 +38,7 @@ The plugin configures a timeout for the code execution. If the code takes longer
 execution will be stopped. The default timeout is 10 seconds.
 
 ```javascript
-//fibs(100)
+// fibs(100)
 //
 // Job timed out
 //
@@ -57,7 +57,7 @@ following code to calculate the first 100 fibonacci numbers. If you place the cu
 and execute :ExecCode, you will see the output in the next line(s).
 
 ```javascript
-//fibs(100)
+// fibs(100)
 // 
 // [
 //                       1,                     1,                     2,

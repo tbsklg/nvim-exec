@@ -15,7 +15,7 @@ describe("some basics", function()
       coroutine.resume(co)
     end, 1000)
 
-    require 'exec'.exec()
+    require 'nvim-exec'.run()
 
     coroutine.yield()
 

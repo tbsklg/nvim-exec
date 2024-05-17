@@ -22,7 +22,6 @@ local execute_code = function(code)
     if not code then
         return
     end
-    print(code)
 
     return vim.fn.jobstart({ "node", "-p", code }, {
         stdout_buffered = true,

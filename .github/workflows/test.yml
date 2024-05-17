@@ -18,9 +18,9 @@ jobs:
 
           mkdir -p _nvim
           curl -sL "https://github.com/neovim/neovim/releases/download/v0.9.0/nvim-linux64.tar.gz" | tar xzf - --strip-components=1 -C "${PWD}/_nvim"
-          export PATH="${PWD}/_nvim/bin:${PATH}"
-          nvim --version
 
       - name: Run tests
         run: |
+          export PATH="${PWD}/_nvim/bin:${PATH}"
+          nvim --version
           make test

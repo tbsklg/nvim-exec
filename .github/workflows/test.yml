@@ -5,10 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
-      - name: Format
-        run: |
-          stylua --check lua/ --config-path=.stylua.toml
+      - uses: JohnnyMorganz/stylua-action@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: latest
+          args: --check lua/ --config-path=.stylua.toml
 
   unit-test:
     runs-on: ubuntu-latest

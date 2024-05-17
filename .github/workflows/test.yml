@@ -14,17 +14,13 @@ jobs:
       
       - name: Prepare
         run: |
+          cp parser/javascript.so dependecies/nvim-treesitter/parser
+
           mkdir -p _nvim
           curl -sL "https://github.com/neovim/neovim/releases/download/v0.9.0/nvim-linux64.tar.gz" | tar xzf - --strip-components=1 -C "${PWD}/_nvim"
           export PATH="${PWD}/_nvim/bin:${PATH}"
           nvim --version
-          
-          npm i -g tree-sitter-cli
-          curl -s "https://raw.githubusercontent.com/tree-sitter/tree-sitter-javascript/master/grammar.js"
-          tree-sitter generate
-          ls -la
 
       - name: Run tests
         run: |
-          ls -la dependencies
-          echo "Run tests using make"
+          make test

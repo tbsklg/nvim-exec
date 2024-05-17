@@ -1,4 +1,6 @@
 ![](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
+![](https://github.com/github/docs/actions/workflows/format.yml/badge.svg)
+![](https://github.com/github/docs/actions/workflows/lint.yml/badge.svg)
 
 # nvim-exec
 [![Lua](https://img.shields.io/badge/Lua-blue.svg?style=for-the-badge&logo=lua)](http://www.lua.org)

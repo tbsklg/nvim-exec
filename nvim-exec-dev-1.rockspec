@@ -1,11 +1,10 @@
 package = "nvim-exec"
-version = "dev-1"
+version = "v0.1.0"
 source = {
-   url = "*** please add URL for source tarball, zip or repository here ***"
+   url = "https://github.com/tbsklg/nvim-exec",
 }
 description = {
-   homepage = "*** please enter a project homepage ***",
-   license = "*** please specify a license ***"
+   license = "MIT",
 }
 build = {
    type = "builtin",

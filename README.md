@@ -118,6 +118,18 @@ const fibs = (n) => {
   of the code you want to execute. You can install the parser for the language you are using by running
   `:TSInstall <language>` in neovim.
 
+## Installation
+- Using lazy.nvim
+```lua
+{
+  "tbsklg"/"nvim-exec",
+  branch = "main",
+  dependencies = {
+    {"nvim-treesitter/nvim-treesitter"}
+  }
+}
+```
+
 # Development
 ## Run linting
 ```make lint```

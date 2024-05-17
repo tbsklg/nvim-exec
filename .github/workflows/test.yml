@@ -19,8 +19,8 @@ jobs:
           export PATH="${PWD}/_nvim/bin:${PATH}"
           nvim --version
           
-          nvim --headless -c ":TSInstall! javascript"
-          nvim --headless -c "echo nvim_get_runtime_file('parsers/*.so', v:true)"
+          nvim --headless -c ":TSInstall! javascript" -c "q"
+          nvim --headless -c "echo nvim_get_runtime_file('parsers/*.so', v:true)" -c "q"
 
       - name: Run tests
         run: |

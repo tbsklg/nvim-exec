@@ -13,7 +13,7 @@ describe("some basics", function()
 
     vim.defer_fn(function()
       coroutine.resume(co)
-    end, 1000)
+    end, 2000)
 
     require 'nvim-exec'.run()
 

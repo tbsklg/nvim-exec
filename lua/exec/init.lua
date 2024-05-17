@@ -7,7 +7,7 @@ local config = {
 }
 
 local print_result = function(result)
-    local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
+    local cursor_line =                                                 vim.api.nvim_win_get_cursor(0)[1]
     local buf_nr = vim.api.nvim_get_current_buf()
 
     vim.api.nvim_buf_set_lines(

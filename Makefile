@@ -1,8 +1,8 @@
 fmt:
-	stylua lua/ --config-path=.stylua.toml
+	stylua lua/ tests/ --config-path=.stylua.toml
 
 lint:
-	lua_modules/bin/luacheck lua/ --globals vim
+	luacheck lua/ tests/ --globals vim
 
 test:
 	nvim --headless --noplugin -u scripts/minimal.vim \

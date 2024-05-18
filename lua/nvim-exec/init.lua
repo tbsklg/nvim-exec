@@ -70,7 +70,7 @@ local create_execution_for = function(node)
     local file_content = vim.api.nvim_buf_get_lines(buf_nr, 0, -1, false)
     local instruction = extract_instruction_from(node)
 
-    return table.concat(file_content, "\n") .. "\n" .. instruction
+    return table.concat(file_content, "\n") .. "\n;" .. instruction
 end
 
 local run = function()

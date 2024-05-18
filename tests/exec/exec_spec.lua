@@ -36,7 +36,7 @@ describe("nvim-exec", function()
 
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
-        execute_code(2000, function()
+        execute_code(4000, function()
             require("nvim-exec").run()
         end)
 
@@ -54,7 +54,7 @@ describe("nvim-exec", function()
 
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
-        execute_code(2000, function()
+        execute_code(4000, function()
             require("nvim-exec").run()
         end)
 

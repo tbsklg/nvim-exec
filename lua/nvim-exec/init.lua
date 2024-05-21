@@ -6,8 +6,12 @@ local config = {
 }
 
 local filetype_executable = {
-    javascript = function(code) return { "node", "-p", code } end,
-    typescript = function(code) return { "npx", "ts-node", "-p", "-e", code } end,
+    javascript = function(code)
+        return { "node", "-p", code }
+    end,
+    typescript = function(code)
+        return { "npx", "ts-node", "-p", "-e", code }
+    end,
 }
 
 local print_result = function(result)

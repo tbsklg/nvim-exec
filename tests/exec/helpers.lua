@@ -1,4 +1,4 @@
-execute_code = function(max_execution_time, fn)
+local execute_code = function(max_execution_time, fn)
     local co = coroutine.running()
 
     vim.defer_fn(function()

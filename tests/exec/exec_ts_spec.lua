@@ -1,4 +1,4 @@
-local helpers = require "tests.exec.helpers"
+local helpers = require("tests.exec.helpers")
 
 describe("exec-typescript", function()
     before_each(function()

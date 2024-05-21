@@ -1,4 +1,4 @@
-local helpers = require "tests.exec.helpers"
+local helpers = require("tests.exec.helpers")
 
 describe("exec-javascript", function()
     before_each(function()

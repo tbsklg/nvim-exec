@@ -1,12 +1,12 @@
 ![](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
 
-# nvim-exec for node.js
+# nvim-exec for javascript/typescript
 [![Lua](https://img.shields.io/badge/Lua-blue.svg?style=for-the-badge&logo=lua)](http://www.lua.org)
 [![Neovim](https://img.shields.io/badge/Neovim%200.8+-green.svg?style=for-the-badge&logo=neovim)](https://neovim.io)
 
 Sometimes you need fast feedback on the code you are writing. This plugin allows you to execute code
-from your current buffer. It displays the output as a comment in the same buffer. Currently only **node.js**
-is supported.
+from your current buffer. It displays the output as a comment in the same buffer. Currently only **javascript** and **typescript**
+are supported.
 
 You can execute any code within a comment block. The output will be displayed
 as a comment in the next line(s).

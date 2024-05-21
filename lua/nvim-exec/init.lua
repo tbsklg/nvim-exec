@@ -5,6 +5,15 @@ local config = {
     timeout_in_ms = 10000,
 }
 
+local filetype_executable = {
+    javascript = function(code)
+        return { "node", "-p", code }
+    end,
+    typescript = function(code)
+        return { "npx", "ts-node", "-p", "-e", code }
+    end,
+}
+
 local print_result = function(result)
     local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
     local buf_nr = vim.api.nvim_get_current_buf()
@@ -23,7 +32,14 @@ local execute_code = function(code)
         return
     end
 
-    return vim.fn.jobstart({ "node", "-p", code }, {
+    local filetype = vim.bo.filetype
+    local executable = filetype_executable[filetype]
+
+    if not executable then
+        return
+    end
+
+    return vim.fn.jobstart(executable(code), {
         stdout_buffered = true,
         stderr_buffered = true,
         on_stdout = function(_, data)
@@ -48,11 +64,11 @@ local on_timeout = function(job_id, callback)
     end, config.timeout_in_ms)
 end
 
-local comments_with_marker = function()
+local parse_comments = function()
     local buf_nr = vim.api.nvim_get_current_buf()
 
     local query =
-        vim.treesitter.query.parse("javascript", "((comment) @comment)")
+        vim.treesitter.query.parse(parser:lang(), "((comment) @comment)")
 
     local tree = parser:parse()[1]
     return query:iter_captures(tree:root(), buf_nr)
@@ -74,7 +90,7 @@ local create_execution_for = function(node)
 end
 
 local run = function()
-    for _, node, _ in comments_with_marker() do
+    for _, node, _ in parse_comments() do
         local node_line = vim.treesitter.get_node_range(node) + 1
         local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
 

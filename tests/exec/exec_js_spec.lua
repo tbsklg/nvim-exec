@@ -1,27 +1,9 @@
-local execute_code = function(max_execution_time, fn)
-    local co = coroutine.running()
+local helpers = require("tests.exec.helpers")
 
-    vim.defer_fn(function()
-        coroutine.resume(co)
-    end, max_execution_time)
-
-    fn()
-
-    coroutine.yield()
-end
-
-local clear_buffer = function()
-    vim.api.nvim_buf_set_lines(0, 0, -1, false, {})
-end
-
-local set_filetype = function(filetype)
-    vim.api.nvim_buf_set_option(0, "filetype", filetype)
-end
-
-describe("nvim-exec", function()
+describe("exec-javascript", function()
     before_each(function()
-        clear_buffer()
-        set_filetype("javascript")
+        helpers.clear_buffer()
+        helpers.set_filetype("javascript")
     end)
 
     it("should execute code for function call", function()
@@ -36,7 +18,7 @@ describe("nvim-exec", function()
 
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
-        execute_code(4000, function()
+        helpers.execute_code(4000, function()
             require("nvim-exec").run()
         end)
 
@@ -54,7 +36,7 @@ describe("nvim-exec", function()
 
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
-        execute_code(4000, function()
+        helpers.execute_code(4000, function()
             require("nvim-exec").run()
         end)
 

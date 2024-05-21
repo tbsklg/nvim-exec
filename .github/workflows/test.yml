@@ -11,14 +11,16 @@ jobs:
           mkdir -p dependencies
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim.git dependencies/plenary.nvim
           git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter.git dependencies/nvim-treesitter
-      
+        
+          npm i -g ts-node
+
       - name: Prepare
         run: |
           mkdir -p _nvim
           curl -sL "https://github.com/neovim/neovim/releases/download/v0.9.0/nvim-linux64.tar.gz" | tar xzf - --strip-components=1 -C "${PWD}/_nvim"
           export PATH="${PWD}/_nvim/bin:${PATH}"
           
-          nvim --headless -u scripts/minimal.vim -c 'TSUpdateSync javascript' -c 'q'
+          nvim --headless -u scripts/minimal.vim -c 'TSUpdateSync javascript typescript' -c 'q'
       
       - name: Run tests
         run: |

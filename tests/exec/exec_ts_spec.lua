@@ -22,7 +22,7 @@ describe("exec-typescript", function()
             require("nvim-exec").run()
         end)
 
-        local result = vim.api.nvim_buf_get_lines(0, 2, 3, false)
+        local result = vim.api.nvim_buf_get_lines(0, 0, -1, false)
         assert.are.same({ "// 3" }, result)
     end)
 end)

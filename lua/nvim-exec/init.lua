@@ -1,8 +1,14 @@
-local helpers = require("nvim-exec.helpers")
+local view = require("nvim-exec.view")
 local parser = require("nvim-treesitter.parsers").get_parser()
 
 local config = {
     timeout_in_ms = 10000,
+    show_result_in = "window",
+}
+
+local print_result = {
+    comment = view.show_as_comment,
+    window = view.show_in_window,
 }
 
 local filetype_executable = {
@@ -13,19 +19,6 @@ local filetype_executable = {
         return { "npx", "ts-node", "-p", "-e", code }
     end,
 }
-
-local print_result = function(result)
-    local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
-    local buf_nr = vim.api.nvim_get_current_buf()
-
-    vim.api.nvim_buf_set_lines(
-        buf_nr,
-        cursor_line,
-        cursor_line,
-        false,
-        helpers.as_comment(result)
-    )
-end
 
 local execute_code = function(code)
     if not code then
@@ -44,12 +37,12 @@ local execute_code = function(code)
         stderr_buffered = true,
         on_stdout = function(_, data)
             if data then
-                print_result(data)
+                print_result[config.show_result_in](data)
             end
         end,
         on_stderr = function(_, data)
             if data then
-                print_result(data)
+                print_result[config.show_result_in](data)
             end
         end,
     })

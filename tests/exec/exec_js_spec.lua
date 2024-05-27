@@ -19,10 +19,10 @@ describe("exec-javascript", function()
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
         helpers.execute_code(4000, function()
-            require("nvim-exec").run()
+            require("nvim-exec").setup({ output_mode = "comment" }).run()
         end)
 
-        local result = vim.api.nvim_buf_get_lines(0, 2, 3, false)
+        local result = vim.api.nvim_buf_get_lines(0, 1, 2, false)
         assert.are.same({ "// 3" }, result)
     end)
 
@@ -37,10 +37,10 @@ describe("exec-javascript", function()
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
         helpers.execute_code(4000, function()
-            require("nvim-exec").run()
+            require("nvim-exec").setup({ output_mode = "comment" }).run()
         end)
 
-        local result = vim.api.nvim_buf_get_lines(0, 2, 3, false)
+        local result = vim.api.nvim_buf_get_lines(0, 1, 2, false)
         assert.are.same({ "// [ 3, 4, 5 ]" }, result)
     end)
 end)

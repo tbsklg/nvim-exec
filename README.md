@@ -18,7 +18,6 @@ output in the next line(s).
 
 ```javascript
 // fibs(10)
-// 
 // [
 //   1,  1,  2,  3,  5,
 //   8, 13, 21, 34, 55
@@ -39,7 +38,6 @@ execution will be stopped. The default timeout is 10 seconds.
 
 ```javascript
 // fibs(100)
-//
 // Job timed out
 //
 const fibs = (n) => {
@@ -58,7 +56,6 @@ and execute :ExecCode, you will see the output in the next line(s).
 
 ```javascript
 // fibs(100)
-// 
 // [
 //                       1,                     1,                     2,
 //                       3,                     5,                     8,
@@ -113,26 +110,43 @@ const fibs = (n) => {
 # Quickstart
 ## Requirements
 - **Neovim 0.9.5** or later
-- Node.js installation (depends on the code you want to execute)
+- Node.js installation
 - Nvim-treesitter with parser installation. This plugin uses the treesitter parser to identify the language
   of the code you want to execute. You can install the parser for the language you are using by running
   `:TSInstall <language>` in neovim.
 
+## Requirements for Typescript
+- Typescript installation
+- ts-node
+
 ## Installation
-- Using lazy.nvim
+- Example configuration for lazy:
 ```lua
 return {
     "tbsklg/nvim-exec",
-    lazy = true,
     branch = "main",
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+    },
     config = function()
-        local nvim_exec = require("nvim-exec")
-
+        local nvim_exec = require("nvim-exec").setup({
+            timeout = 10000,
+            output_mode = "window",
+        })
+    
         vim.keymap.set({ "n", "v" }, "<leader>r", function()
             nvim_exec.run()
         end, { desc = "Execute code" })
     end,
     ft = "javascript",
+}
+```
+
+## Default configuration
+```lua
+{
+    timeout = 10000, -- Timeout in milliseconds for code execution
+    output_mode = "window", -- "comment" || "window"
 }
 ```
 

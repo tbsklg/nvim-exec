@@ -1,8 +1,15 @@
+local view = require("nvim-exec.view")
 local helpers = require("nvim-exec.helpers")
 local parser = require("nvim-treesitter.parsers").get_parser()
 
-local config = {
+local default_config = {
     timeout_in_ms = 10000,
+    output_mode = "window",
+}
+
+local show_execution_result = {
+    comment = view.show_in_comment,
+    window = view.show_in_window,
 }
 
 local filetype_executable = {
@@ -13,19 +20,6 @@ local filetype_executable = {
         return { "npx", "ts-node", "-p", "-e", code }
     end,
 }
-
-local print_result = function(result)
-    local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
-    local buf_nr = vim.api.nvim_get_current_buf()
-
-    vim.api.nvim_buf_set_lines(
-        buf_nr,
-        cursor_line,
-        cursor_line,
-        false,
-        helpers.as_comment(result)
-    )
-end
 
 local execute_code = function(code)
     if not code then
@@ -43,13 +37,15 @@ local execute_code = function(code)
         stdout_buffered = true,
         stderr_buffered = true,
         on_stdout = function(_, data)
-            if data then
-                print_result(data)
+            local non_empty_lines = helpers.without_empty_lines(data)
+            if #non_empty_lines > 0 then
+                show_execution_result[default_config.output_mode](data)
             end
         end,
         on_stderr = function(_, data)
-            if data then
-                print_result(data)
+            local non_empty_lines = helpers.without_empty_lines(data)
+            if #non_empty_lines > 0 then
+                show_execution_result[default_config.output_mode](data)
             end
         end,
     })
@@ -61,7 +57,7 @@ local on_timeout = function(job_id, callback)
             vim.fn.jobstop(job_id)
             callback()
         end
-    end, config.timeout_in_ms)
+    end, default_config.timeout_in_ms)
 end
 
 local parse_comments = function()
@@ -96,7 +92,7 @@ local run = function()
 
         if node_line == cursor_line then
             on_timeout(execute_code(create_execution_for(node)), function()
-                print_result({ "Job timed out" })
+                show_execution_result({ "Job timed out" })
             end)
         end
     end
@@ -104,6 +100,14 @@ end
 
 vim.api.nvim_create_user_command("ExecCode", run, {})
 
+local setup = function(user_config)
+    default_config = vim.tbl_extend("force", default_config, user_config)
+
+    return {
+        run = run,
+    }
+end
+
 return {
-    run = run,
+    setup = setup,
 }

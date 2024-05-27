@@ -37,14 +37,14 @@ local execute_code = function(code)
         stdout_buffered = true,
         stderr_buffered = true,
         on_stdout = function(_, data)
-            local filtered_data = helpers.without_empty_lines(data)
-            if #filtered_data > 0 then
+            local non_empty_lines = helpers.without_empty_lines(data)
+            if #non_empty_lines > 0 then
                 show_execution_result[config.output_mode](data)
             end
         end,
         on_stderr = function(_, data)
-            local filtered_data = helpers.without_empty_lines(data)
-            if #filtered_data > 0 then
+            local non_empty_lines = helpers.without_empty_lines(data)
+            if #non_empty_lines > 0 then
                 show_execution_result[config.output_mode](data)
             end
         end,

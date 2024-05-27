@@ -4,10 +4,10 @@ local parser = require("nvim-treesitter.parsers").get_parser()
 
 local config = {
     timeout_in_ms = 10000,
-    show_result_in = "comment",
+    output_mode = "comment",
 }
 
-local print_result = {
+local show_execution_result = {
     comment = view.show_in_comment,
     window = view.show_in_window,
 }
@@ -39,13 +39,13 @@ local execute_code = function(code)
         on_stdout = function(_, data)
             local filtered_data = helpers.without_empty_lines(data)
             if #filtered_data > 0 then
-                print_result[config.show_result_in](data)
+                show_execution_result[config.output_mode](data)
             end
         end,
         on_stderr = function(_, data)
             local filtered_data = helpers.without_empty_lines(data)
             if #filtered_data > 0 then
-                print_result[config.show_result_in](data)
+                show_execution_result[config.output_mode](data)
             end
         end,
     })
@@ -92,7 +92,7 @@ local run = function()
 
         if node_line == cursor_line then
             on_timeout(execute_code(create_execution_for(node)), function()
-                print_result({ "Job timed out" })
+                show_execution_result({ "Job timed out" })
             end)
         end
     end
@@ -100,6 +100,14 @@ end
 
 vim.api.nvim_create_user_command("ExecCode", run, {})
 
+local setup = function(user_config)
+    config = vim.tbl_extend("force", config, user_config)
+
+    return {
+        run = run,
+    }
+end
+
 return {
-    run = run,
+    setup = setup,
 }

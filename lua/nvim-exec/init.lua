@@ -2,9 +2,9 @@ local view = require("nvim-exec.view")
 local helpers = require("nvim-exec.helpers")
 local parser = require("nvim-treesitter.parsers").get_parser()
 
-local config = {
+local default_config = {
     timeout_in_ms = 10000,
-    output_mode = "comment",
+    output_mode = "window",
 }
 
 local show_execution_result = {
@@ -39,13 +39,13 @@ local execute_code = function(code)
         on_stdout = function(_, data)
             local non_empty_lines = helpers.without_empty_lines(data)
             if #non_empty_lines > 0 then
-                show_execution_result[config.output_mode](data)
+                show_execution_result[default_config.output_mode](data)
             end
         end,
         on_stderr = function(_, data)
             local non_empty_lines = helpers.without_empty_lines(data)
             if #non_empty_lines > 0 then
-                show_execution_result[config.output_mode](data)
+                show_execution_result[default_config.output_mode](data)
             end
         end,
     })
@@ -57,7 +57,7 @@ local on_timeout = function(job_id, callback)
             vim.fn.jobstop(job_id)
             callback()
         end
-    end, config.timeout_in_ms)
+    end, default_config.timeout_in_ms)
 end
 
 local parse_comments = function()
@@ -101,7 +101,7 @@ end
 vim.api.nvim_create_user_command("ExecCode", run, {})
 
 local setup = function(user_config)
-    config = vim.tbl_extend("force", config, user_config)
+    default_config = vim.tbl_extend("force", default_config, user_config)
 
     return {
         run = run,

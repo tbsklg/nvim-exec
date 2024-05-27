@@ -19,7 +19,7 @@ describe("exec-javascript", function()
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
         helpers.execute_code(4000, function()
-            require("nvim-exec").setup({}).run()
+            require("nvim-exec").setup({ output_mode = "comment" }).run()
         end)
 
         local result = vim.api.nvim_buf_get_lines(0, 1, 2, false)
@@ -37,7 +37,7 @@ describe("exec-javascript", function()
         vim.api.nvim_win_set_cursor(0, { 1, 0 })
 
         helpers.execute_code(4000, function()
-            require("nvim-exec").setup({}).run()
+            require("nvim-exec").setup({ output_mode = "comment" }).run()
         end)
 
         local result = vim.api.nvim_buf_get_lines(0, 1, 2, false)

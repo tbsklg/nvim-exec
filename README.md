@@ -142,7 +142,7 @@ return {
 }
 ```
 
-## Configuration
+## Default configuration
 ```lua
 {
     timeout = 10000, -- Timeout in milliseconds for code execution

@@ -1,13 +1,14 @@
 local view = require("nvim-exec.view")
+local helpers = require("nvim-exec.helpers")
 local parser = require("nvim-treesitter.parsers").get_parser()
 
 local config = {
     timeout_in_ms = 10000,
-    show_result_in = "window",
+    show_result_in = "comment",
 }
 
 local print_result = {
-    comment = view.show_as_comment,
+    comment = view.show_in_comment,
     window = view.show_in_window,
 }
 
@@ -36,12 +37,14 @@ local execute_code = function(code)
         stdout_buffered = true,
         stderr_buffered = true,
         on_stdout = function(_, data)
-            if data then
+            local filtered_data = helpers.without_empty_lines(data)
+            if #filtered_data > 0 then
                 print_result[config.show_result_in](data)
             end
         end,
         on_stderr = function(_, data)
-            if data then
+            local filtered_data = helpers.without_empty_lines(data)
+            if #filtered_data > 0 then
                 print_result[config.show_result_in](data)
             end
         end,

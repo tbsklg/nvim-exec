@@ -16,12 +16,21 @@ end
 local show_in_window = function(result)
     local buf_nr = vim.api.nvim_create_buf(false, true)
     vim.api.nvim_buf_set_lines(buf_nr, 0, -1, false, result)
-    vim.api.nvim_open_win(buf_nr, true, {
+
+    local win_id = vim.api.nvim_open_win(buf_nr, true, {
         relative = "editor",
         width = 80,
         height = 10,
-        row = 10,
-        col = 10,
+        row = math.floor(((vim.o.lines - 10) / 2) - 1),
+        col = math.floor((vim.o.columns - 80) / 2),
+        border = "single",
+        style = "minimal",
+        title = "Code execution result",
+        title_pos = "center",
+    })
+
+    vim.api.nvim_set_option_value("number", true, {
+        win = win_id,
     })
 end
 

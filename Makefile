@@ -5,5 +5,5 @@ lint:
 	luacheck lua/ tests/ --globals vim
 
 test:
-	nvim --headless --noplugin -u scripts/minimal.vim \
+	nvim --headless \
         -c "PlenaryBustedDirectory tests/exec {minimal_init = 'scripts/minimal.vim'}"

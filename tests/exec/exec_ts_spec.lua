@@ -1,4 +1,6 @@
-local helpers = require("tests.exec.helpers")
+local project_root = vim.fn.fnamemodify(vim.fn.expand('<sfile>'), ':p:h:h')
+package.path = project_root .. '/?.lua;' .. package.path
+local helpers = require("nvim-exec.tests.exec.helpers")
 
 describe("exec-typescript", function()
     before_each(function()

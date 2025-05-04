@@ -2,3 +2,5 @@
 /lua_modules
 /.luarocks
 /dependencies
+
+/node_modules

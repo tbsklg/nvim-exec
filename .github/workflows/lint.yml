@@ -1,16 +1,24 @@
 name: Lint
-on: [push, pull_request]
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
 jobs:
   format:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
 
-      - name: Dependencies
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install luacheck
         run: |
           sudo apt-get update
-          sudo apt-get install luarocks -y
+          sudo apt-get install -y luarocks
           sudo luarocks install luacheck
 
-      - name: Lint
+      - name: Run luacheck
         run: luacheck lua/ --globals vim

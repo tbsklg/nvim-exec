@@ -9,7 +9,6 @@ on:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -18,6 +17,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          cache: 'npm'
       - run: npm ci
 
       - name: Clone Neovim dependencies
@@ -26,19 +26,22 @@ jobs:
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim.git dependencies/plenary.nvim
           git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter.git dependencies/nvim-treesitter
 
-      - name: Install Neovim 0.11.1
+      - name: Setup Neovim 0.11.1
+        shell: bash
         run: |
           mkdir -p _nvim
-          curl -sL "https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz" \
-            | tar xzf - --strip-components=1 -C _nvim
-        env:
-          PATH: "${PWD}/_nvim/bin:${PATH}"
+          curl -sL "https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz" | tar xzf - --strip-components=1 -C _nvim
+          echo "${PWD}/_nvim/bin" >> $GITHUB_PATH
 
       - name: Update Treesitter parsers
+        shell: bash
         run: |
-          nvim --headless -u scripts/minimal.vim -c 'TSUpdateSync javascript typescript' -c 'q'
+          export PATH="${PWD}/_nvim/bin:${PATH}"
+          _nvim/bin/nvim --headless -u scripts/minimal.vim -c 'TSUpdateSync javascript typescript' -c 'q'
 
       - name: Run tests
+        shell: bash
         run: |
-          nvim --version
+          export PATH="${PWD}/_nvim/bin:${PATH}"
+          _nvim/bin/nvim --version
           make test

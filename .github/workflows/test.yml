@@ -12,7 +12,7 @@ jobs:
           git clone --depth 1 https://github.com/nvim-lua/plenary.nvim.git dependencies/plenary.nvim
           git clone --depth 1 https://github.com/nvim-treesitter/nvim-treesitter.git dependencies/nvim-treesitter
         
-          npm i -g ts-node
+          npm ci
 
       - name: Prepare
         run: |

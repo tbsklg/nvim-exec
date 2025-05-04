@@ -1,13 +1,24 @@
 name: Format 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.lua'
+      - '.stylua.toml'
+      - '.github/workflows/lint.yml'
+  pull_request:
+
 jobs:
-  format:
+  stylua:
+    name: Check Lua formatting
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - uses: JohnnyMorganz/stylua-action@v4
+      - name: Run StyLua
+        uses: JohnnyMorganz/stylua-action@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
+          token: ${{ secrets.GITHUB_TOKEN }}
           args: --check lua/ --config-path=.stylua.toml

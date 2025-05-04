@@ -7,6 +7,8 @@
 
 > Execute JavaScript/TypeScript code directly from your Neovim buffer and see the results instantly
 
+[![asciicast](https://asciinema.org/a/99Pz6BItqkZWEuo6AyoSgHrJE.svg)](https://asciinema.org/a/99Pz6BItqkZWEuo6AyoSgHrJE)
+
 ## Features
 
 - ✅ Execute JavaScript/TypeScript code directly from your buffer

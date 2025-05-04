@@ -32,7 +32,7 @@ jobs:
           curl -sL "https://github.com/neovim/neovim/releases/download/v0.11.1/nvim-linux-x86_64.tar.gz" \
             | tar xzf - --strip-components=1 -C _nvim
         env:
-          PATH: "${{ github.workspace }}/_nvim/bin:${{ runner.env.PATH }}"
+          PATH: "${PWD}/_nvim/bin:${PATH}"
 
       - name: Update Treesitter parsers
         run: |

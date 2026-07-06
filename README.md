@@ -1,4 +1,4 @@
-![Status](https://github.com/github/docs/actions/workflows/test.yml/badge.svg)
+![Status](https://github.com/tbsklg/nvim-exec/actions/workflows/test.yml/badge.svg)
 
 # nvim-exec
 

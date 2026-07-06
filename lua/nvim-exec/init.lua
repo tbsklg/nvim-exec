@@ -1,9 +1,8 @@
 local view = require("nvim-exec.view")
 local helpers = require("nvim-exec.helpers")
-local parser = require("nvim-treesitter.parsers").get_parser()
 
 local default_config = {
-    timeout_in_ms = 10000,
+    timeout = 10000,
     output_mode = "window",
 }
 
@@ -57,11 +56,12 @@ local on_timeout = function(job_id, callback)
             vim.fn.jobstop(job_id)
             callback()
         end
-    end, default_config.timeout_in_ms)
+    end, default_config.timeout)
 end
 
 local parse_comments = function()
     local buf_nr = vim.api.nvim_get_current_buf()
+    local parser = vim.treesitter.get_parser(buf_nr)
 
     local query =
         vim.treesitter.query.parse(parser:lang(), "((comment) @comment)")
@@ -73,7 +73,7 @@ end
 local extract_instruction_from = function(node)
     local buf_nr = vim.api.nvim_get_current_buf()
 
-    return vim.treesitter.get_node_text(node, buf_nr):gsub("//", "")
+    return (vim.treesitter.get_node_text(node, buf_nr):gsub("^//%s*", ""))
 end
 
 local create_execution_for = function(node)
@@ -87,12 +87,15 @@ end
 
 local run = function()
     for _, node, _ in parse_comments() do
-        local node_line = vim.treesitter.get_node_range(node) + 1
+        local start_row = vim.treesitter.get_node_range(node)
+        local node_line = start_row + 1
         local cursor_line = vim.api.nvim_win_get_cursor(0)[1]
 
         if node_line == cursor_line then
             on_timeout(execute_code(create_execution_for(node)), function()
-                show_execution_result({ "Job timed out" })
+                show_execution_result[default_config.output_mode]({
+                    "Job timed out",
+                })
             end)
         end
     end
@@ -101,7 +104,7 @@ end
 vim.api.nvim_create_user_command("ExecCode", run, {})
 
 local setup = function(user_config)
-    default_config = vim.tbl_extend("force", default_config, user_config)
+    default_config = vim.tbl_extend("force", default_config, user_config or {})
 
     return {
         run = run,
